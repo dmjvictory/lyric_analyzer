@@ -42,7 +42,7 @@ def parse():
 	plt.imshow(wc)
 	plt.axis("off")
 	plt.show()
-	plt.savefig('houyao.png')
+	wc.to_file('houyao.png')
 
 
 if __name__ == '__main__':
