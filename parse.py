@@ -39,10 +39,10 @@ def parse():
 	del counter[' ']
 	wc = WordCloud().generate_from_frequencies(dict(counter.most_common(50)))
  
-	plt.imshow(wc)
-	plt.axis("off")
-	plt.show()
-	wc.to_file('houyao.png')
+	#plt.imshow(wc)
+	#plt.axis("off")
+	#plt.show()
+	wc.to_file('houyao.jpg')
 
 
 if __name__ == '__main__':
