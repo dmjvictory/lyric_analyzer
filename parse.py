@@ -8,13 +8,17 @@ import thulac
 import numpy as np
 import collections
 import pandas as pd
-from snownlp import SnowNLP
+#from snownlp import SnowNLP
+from scipy.misc import imread
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 from pylab import *
 mpl.rcParams['font.sans-serif'] = ['SimHei']
 mpl.rcParams['axes.unicode_minus'] = False
+stop_list = [l.strip().decode('utf8') for l in open('ENstopwords.txt').readlines()]
+stop_list += [l.strip().decode('utf8') for l in open('CNstopwords.txt').readlines()]
+
 
 def self_cut(line, filt=True):
 	line = line.replace('\xc2\xa0', '').replace('\xe3\x80\x80', '')
@@ -30,15 +34,13 @@ def self_cut(line, filt=True):
 
 
 def word_parse():
-	stop_list = [l.strip().decode('utf8') for l in open('ENstopwords.txt').readlines()]
-	stop_list += [l.strip().decode('utf8') for l in open('CNstopwords.txt').readlines()]
 	counter = collections.Counter()
 	cur_counter = collections.Counter()
 	#thu = thulac.thulac(filt=True, T2S=True, seg_only=True)
 	if 1:#for root, dirs, files in os.walk('data/'):    
 		if 1:#for f in files:            
 			#for line in open(os.path.join(root, f)).readlines():
-			for line in open('data/new.lrc').readlines():
+			for line in open('data/all.lrc').readlines():
 				if not line.strip():
 					for k, v in cur_counter.most_common():
 						if v > 5:
@@ -51,12 +53,14 @@ def word_parse():
 
 	cloud_list = []
 	del counter[' ']
-	wc = WordCloud().generate_from_frequencies(dict(counter.most_common(50)))
+	back = imread('yellowman.jpg')
+	wc = WordCloud(mask=back, background_color='white', \
+			width=1200, height=800).generate_from_frequencies(dict(counter.most_common(75)))
  
 	#plt.imshow(wc)
 	#plt.axis("off")
 	#plt.show()
-	wc.to_file('houyao.jpg')
+	wc.to_file('rock.jpg')
 
 
 def emotion_parse():
@@ -139,6 +143,6 @@ def emotion_parse():
 		plt.savefig('emotion.jpg')
 
 if __name__ == '__main__':
-	#word_parse()
-	emotion_parse()
+	word_parse()
+	#emotion_parse()
 
